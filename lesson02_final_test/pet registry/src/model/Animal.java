@@ -5,14 +5,14 @@ import java.util.Arrays;
 public class Animal {
     private int id;
     private String type;
-    private String animalNAme;
+    private String animalName;
     private String dateOfBirth;
     private String[] commands;
 
-    public Animal(int id, String type, String animalNAme, String dateOfBirth, String[] commands) {
+    public Animal(int id, String type, String animalName, String dateOfBirth, String[] commands) {
         this.id = id;
         this.type = type;
-        this.animalNAme = animalNAme;
+        this.animalName = animalName;
         this.dateOfBirth = dateOfBirth;
         this.commands = commands;
     }
@@ -21,12 +21,8 @@ public class Animal {
         return id;
     }
 
-    public String getType() {
-        return type;
-    }
-
     public String getAnimalName() {
-        return animalNAme;
+        return animalName;
     }
 
     public String getDateOfBirth() {
@@ -41,8 +37,9 @@ public class Animal {
     public String toString() {
         return "Животное №" + id
                 + ' ' + type + ' '
-                + animalNAme + ' '
+                + animalName + ' '
                 + "дата рождения " + dateOfBirth
                 + " знает команды " + Arrays.toString(commands);
     }
+
 }

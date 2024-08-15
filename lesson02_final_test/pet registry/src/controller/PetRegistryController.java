@@ -18,11 +18,10 @@ public class PetRegistryController {
         return service.getAllAnimals();
     }
 
-    public Animal getByName (String animalName){
+    public Animal getById (int id){
         Animal animal = null;
         try {
-            animal = service.getByName(animalName);
-            System.out.println(animal);
+            animal = service.getById(id);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

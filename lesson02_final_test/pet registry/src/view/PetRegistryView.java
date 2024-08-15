@@ -1,5 +1,6 @@
 package view;
 
+import DB.DataBase;
 import controller.PetRegistryController;
 import model.Animal;
 import model.Cat;
@@ -18,14 +19,15 @@ public class PetRegistryView {
                 "2. Показать список команд животного\n" +
                 "3. Обучение новым командам\n" +
                 "4. Вывести список животных по дате рождения\n" +
-                "5. Выход");
-            String cmd = scanner.nextLine();
-            switch (cmd) {
-                case "1" -> addAnimal();
-                case "2" -> showComandsAnimal();
-                case "3" -> System.out.println("Обучение командам");
-                case "4" -> System.out.println(controller.getAllAnimals());
-                case "5" -> System.exit(0);
+                "5. Вывести количество животных в реестре" +
+                "6. Выход");
+            switch (scanner.nextInt()) {
+                case 1 -> addAnimal();
+                case 2 -> showComandsAnimal();
+                case 3 -> addCommandAnimal();
+                case 4 -> System.out.println(controller.getAllAnimals());
+                case 5 -> System.exit(0);
+                case 6 -> System.exit(0);
                 default -> System.out.println("Нет такого дейтсвия");
             }
         }
@@ -39,16 +41,15 @@ public class PetRegistryView {
                 "4. Верблюда\n" +
                 "5. Лошадь\n" +
                 "6. Осла\n" +
-                "7. Вернуться в галвное меню\n");
-        String cmd = scanner.nextLine();
-            switch (cmd) {
-                case "1" -> createCat();
-                case "2" -> System.out.println("Собака");
-                case "3" -> System.out.println("Хомяк");
-                case "4" -> System.out.println("Верблюд");
-                case "5" -> System.out.println("Лошадь");
-                case "6" -> System.out.println("Осел");
-                case "7" -> start();
+                "7. Вернуться в галвное меню");
+            switch (scanner.nextInt()) {
+                case 1 -> createCat();
+                case 2 -> System.out.println("Собака");
+                case 3 -> System.out.println("Хомяк");
+                case 4 -> System.out.println("Верблюд");
+                case 5 -> System.out.println("Лошадь");
+                case 6 -> System.out.println("Осел");
+                case 7 -> start();
                 default -> System.out.println("Нет такого дейтсвия");
             }
         }
@@ -65,14 +66,22 @@ public class PetRegistryView {
         String[] commandsArray = commands.split(",");
         Cat cat = controller.createCat(name, dateOfBirth, commandsArray);
         System.out.println(cat);
+        System.out.println(DataBase.animals);
         return cat;
     }
 
-    private Animal showComandsAnimal() {
+    private void showComandsAnimal() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите имя животного, команды которого показать: ");
-        String name = scanner.nextLine();
-        Animal animal = controller.getByName(name);
-        return animal;
+        System.out.println("Введите номер животного, команды которого показать: ");
+        Animal animal = controller.getById(scanner.nextInt());
+        System.out.println(Arrays.toString(animal.getCommands()));
     }
+
+    private void addCommandAnimal(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите номер животного, которого необходимо обучить новым командам: ");
+        Animal animal = controller.getById(scanner.nextInt());
+
+    }
+
 }

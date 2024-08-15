@@ -7,15 +7,14 @@ import model.Cat;
 import java.util.List;
 
 public class PetRegistryService {
-    public Cat createCat (String animalNAme, String dateOfBirth, String[] commands){
+    public Cat createCat (String animalName, String dateOfBirth, String[] commands){
         int id;
         int size = DataBase.animals.size();
         if (size == 0) {
             id = 1;
         } else id = size + 1;
-        Cat cat = new Cat(id, "кошка", animalNAme, dateOfBirth, commands);
+        Cat cat = new Cat(id, "кошка", animalName, dateOfBirth, commands);
         DataBase.animals.add(cat);
-        System.out.println();
         return cat;
     }
 
@@ -23,10 +22,10 @@ public class PetRegistryService {
         return DataBase.animals;
     }
 
-    public Animal getByName (String animalName) throws Exception {
+    public Animal getById (int id) throws Exception {
         Animal animal = DataBase.animals
                 .stream()
-                .filter(s -> s.getAnimalName() == animalName)
+                .filter(s -> s.getId() == id)
                 .findFirst()
                 .orElse(null);
         if (animal == null) {
