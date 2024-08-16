@@ -33,9 +33,13 @@ public class Animal {
         return commands;
     }
 
+    public void setCommands(String[] commands) {
+        this.commands = commands;
+    }
+
     @Override
     public String toString() {
-        return "Животное №" + id
+        return "\nЖивотное №" + id
                 + ' ' + type + ' '
                 + animalName + ' '
                 + "дата рождения " + dateOfBirth
