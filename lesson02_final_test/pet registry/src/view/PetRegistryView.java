@@ -2,8 +2,7 @@ package view;
 
 import DB.DataBase;
 import controller.PetRegistryController;
-import model.Animal;
-import model.Cat;
+import model.*;
 
 import java.sql.Array;
 import java.util.Arrays;
@@ -20,7 +19,8 @@ public class PetRegistryView {
                 "3. Обучение новым командам\n" +
                 "4. Вывести список всех животных в реестре\n" +
                 "5. Вывести количество животных в реестре\n" +
-                "6. Удалить животное\n" +
+                "7. Вывсти животных по дате рождения\n" +
+                "8. Удалить животное\n" +
                 "7. Выход");
             switch (scanner.nextInt()) {
                 case 1 -> addAnimal();
@@ -28,8 +28,9 @@ public class PetRegistryView {
                 case 3 -> addCommandAnimal();
                 case 4 -> System.out.println(controller.getAllAnimals());
                 case 5 -> showRegistrySize();
-                case 6 -> delAnimal();
-                case 7 -> System.exit(0);
+                case 6 -> showByDateOfBirth();
+                case 7 -> delAnimal();
+                case 8 -> System.exit(0);
                 default -> System.out.println("Нет такого дейтсвия");
             }
         }
@@ -46,11 +47,11 @@ public class PetRegistryView {
                 "7. Вернуться в галвное меню");
             switch (scanner.nextInt()) {
                 case 1 -> createCat();
-                case 2 -> System.out.println("Собака"); //--
-                case 3 -> System.out.println("Хомяк"); //--
-                case 4 -> System.out.println("Верблюд"); //--
-                case 5 -> System.out.println("Лошадь"); //--
-                case 6 -> System.out.println("Осел"); //--
+                case 2 -> createDog();
+                case 3 -> createHamster();
+                case 4 -> createCamel();
+                case 5 -> createHorse();
+                case 6 -> createDonkey();
                 case 7 -> start();
                 default -> System.out.println("Нет такого дейтсвия");
             }
@@ -71,6 +72,76 @@ public class PetRegistryView {
         return cat;
     }
 
+    private Dog createDog(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите имя собаки: ");
+        String name = scanner.nextLine();
+        System.out.println("Введите дату рождения собаки в формате 'yyyy-mm-dd': ");
+        String dateOfBirth = scanner.nextLine();
+        System.out.println("Введите через запятую команды, которые знает собака: ");
+        String commands = scanner.nextLine();
+        String[] commandsArray = commands.split(",");
+        Dog dog = controller.createDog(name, dateOfBirth, commandsArray);
+        System.out.println(dog);
+        return dog;
+    }
+
+    private Hamster createHamster(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите имя хомяка: ");
+        String name = scanner.nextLine();
+        System.out.println("Введите дату рождения хомяка в формате 'yyyy-mm-dd': ");
+        String dateOfBirth = scanner.nextLine();
+        System.out.println("Введите через запятую команды, которые знает хомяк: ");
+        String commands = scanner.nextLine();
+        String[] commandsArray = commands.split(",");
+        Hamster hamster = controller.createHamster(name, dateOfBirth, commandsArray);
+        System.out.println(hamster);
+        return hamster;
+    }
+
+    private Camel createCamel(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите имя верблюда: ");
+        String name = scanner.nextLine();
+        System.out.println("Введите дату рождения верблюда в формате 'yyyy-mm-dd': ");
+        String dateOfBirth = scanner.nextLine();
+        System.out.println("Введите через запятую команды, которые знает верблюд: ");
+        String commands = scanner.nextLine();
+        String[] commandsArray = commands.split(",");
+        Camel camel = controller.createCamel(name, dateOfBirth, commandsArray);
+        System.out.println(camel);
+        return camel;
+    }
+
+    private Horse createHorse(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите имя лошади: ");
+        String name = scanner.nextLine();
+        System.out.println("Введите дату рождения лошади в формате 'yyyy-mm-dd': ");
+        String dateOfBirth = scanner.nextLine();
+        System.out.println("Введите через запятую команды, которые знает лошадь: ");
+        String commands = scanner.nextLine();
+        String[] commandsArray = commands.split(",");
+        Horse horse = controller.createHorse(name, dateOfBirth, commandsArray);
+        System.out.println(horse);
+        return horse;
+    }
+
+    private Donkey createDonkey(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите имя осла: ");
+        String name = scanner.nextLine();
+        System.out.println("Введите дату рождения осла в формате 'yyyy-mm-dd': ");
+        String dateOfBirth = scanner.nextLine();
+        System.out.println("Введите через запятую команды, которые знает осел: ");
+        String commands = scanner.nextLine();
+        String[] commandsArray = commands.split(",");
+        Donkey donkey = controller.createDonkey(name, dateOfBirth, commandsArray);
+        System.out.println(donkey);
+        return donkey;
+    }
+
     private void showComandsAnimal() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите номер животного, команды которого показать: ");
@@ -83,16 +154,23 @@ public class PetRegistryView {
         System.out.println("Введите номер животного, которого необходимо обучить новым командам: ");
         Animal animal = controller.getById(scanner.nextInt());
         System.out.println(animal);
-        System.out.println(Arrays.toString(animal.getCommands()));
-        System.out.println("Введите новые через запятую команды для животного: ");
-        String commands = scanner.nextLine();
+        System.out.println();
+        System.out.println("Введите через запятую без пробелов новые команды для животного: ");
+        String commands = scanner.next();
         String[] commandsArray = commands.split(",");
+        System.out.println(Arrays.toString(commandsArray));
         animal.setCommands(commandsArray);
         System.out.println(animal);
     }
 
     private void showRegistrySize(){
         System.out.println("В реестре " + DataBase.animals.size() + " животных");
+    }
+
+    private void showByDateOfBirth(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите дату рождения: ");
+        Animal animal = controller.getDateOfBirth(scanner.nextInt());
     }
 
     private void delAnimal(){
