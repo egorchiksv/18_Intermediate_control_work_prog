@@ -46,14 +46,4 @@ public class PetRegistryController {
         }
         return animal;
     }
-
-    public Animal getDateOfBirth (String dateOfBirth){
-        Animal animal = null;
-        try {
-            animal = service.getDateOfBirth(dateOfBirth);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return animal;
-    }
 }

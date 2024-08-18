@@ -3,8 +3,6 @@ package view;
 import DB.DataBase;
 import controller.PetRegistryController;
 import model.*;
-
-import java.sql.Array;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -12,50 +10,58 @@ public class PetRegistryView {
     private PetRegistryController controller = new PetRegistryController();
     public void start() {
         Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println("Программа-реестр домашних животных");
-            System.out.println("Выберете, что хотите сделать: \n1. Добавить новое животное\n" +
-                "2. Показать список команд животного\n" +
-                "3. Обучение новым командам\n" +
-                "4. Вывести список всех животных в реестре\n" +
-                "5. Вывести количество животных в реестре\n" +
-                "7. Вывсти животных по дате рождения\n" +
-                "8. Удалить животное\n" +
-                "7. Выход");
-            switch (scanner.nextInt()) {
-                case 1 -> addAnimal();
-                case 2 -> showComandsAnimal();
-                case 3 -> addCommandAnimal();
-                case 4 -> System.out.println(controller.getAllAnimals());
-                case 5 -> showRegistrySize();
-                case 6 -> showByDateOfBirth();
-                case 7 -> delAnimal();
-                case 8 -> System.exit(0);
-                default -> System.out.println("Нет такого дейтсвия");
+        try {
+            while (true) {
+                System.out.println("Программа-реестр домашних животных");
+                System.out.println("Выберете, что хотите сделать: \n1. Добавить новое животное\n" +
+                        "2. Показать список команд животного\n" +
+                        "3. Обучение новым командам\n" +
+                        "4. Вывести список всех животных в реестре\n" +
+                        "5. Вывести количество животных в реестре\n" +
+                        "6. Вывсти животных по дате рождения\n" +
+                        "7. Удалить животное\n" +
+                        "8. Выход");
+                switch (scanner.nextInt()) {
+                    case 1 -> addAnimal();
+                    case 2 -> showComandsAnimal();
+                    case 3 -> addCommandAnimal();
+                    case 4 -> System.out.println(controller.getAllAnimals());
+                    case 5 -> showRegistrySize();
+                    case 6 -> showByDateOfBirth();
+                    case 7 -> delAnimal();
+                    case 8 -> System.exit(0);
+                    default -> System.out.println("Нет такого дейтсвия");
+                }
             }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
     private void addAnimal(){
         Scanner scanner = new Scanner(System.in);
-        while (true) {
-        System.out.println("Выберете, какое животное будете добавлять: \n1. Кошку\n" +
-                "2. Собаку\n" +
-                "3. Хомяка\n" +
-                "4. Верблюда\n" +
-                "5. Лошадь\n" +
-                "6. Осла\n" +
-                "7. Вернуться в галвное меню");
-            switch (scanner.nextInt()) {
-                case 1 -> createCat();
-                case 2 -> createDog();
-                case 3 -> createHamster();
-                case 4 -> createCamel();
-                case 5 -> createHorse();
-                case 6 -> createDonkey();
-                case 7 -> start();
-                default -> System.out.println("Нет такого дейтсвия");
+            try {
+                while (true) {
+                    System.out.println("Выберете, какое животное будете добавлять: \n1. Кошку\n" +
+                            "2. Собаку\n" +
+                            "3. Хомяка\n" +
+                            "4. Верблюда\n" +
+                            "5. Лошадь\n" +
+                            "6. Осла\n" +
+                            "7. Вернуться в галвное меню");
+                    switch (scanner.nextInt()) {
+                        case 1 -> createCat();
+                        case 2 -> createDog();
+                        case 3 -> createHamster();
+                        case 4 -> createCamel();
+                        case 5 -> createHorse();
+                        case 6 -> createDonkey();
+                        case 7 -> start();
+                        default -> System.out.println("Нет такого дейтсвия");
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
-        }
     }
 
     private Cat createCat(){
@@ -170,7 +176,17 @@ public class PetRegistryView {
     private void showByDateOfBirth(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите дату рождения: ");
-        Animal animal = controller.getDateOfBirth(scanner.nextInt());
+        String dateOfBirth = scanner.next();
+        int count = 0;
+        for (Animal animal : DataBase.animals){
+            if(animal.getDateOfBirth().equals(dateOfBirth)) {
+                System.out.println(animal);
+                count += 1;
+            }
+        }
+        if (count == 0) {
+            System.out.println("Животное не найдено");
+        }
     }
 
     private void delAnimal(){
